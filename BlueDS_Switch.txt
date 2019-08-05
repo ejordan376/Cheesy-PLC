@@ -1,0 +1,85 @@
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Blue_DS
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$MJXr$uPi8FjrEBet3KZ7JDw2aV1
+!
+!
+!
+no aaa new-model
+system mtu routing 1500
+ptp mode e2etransparent
+!
+!
+!
+!
+!
+!
+no mac authentication
+mac authentication table version 0
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+alarm profile defaultPort
+ alarm not-operating
+ syslog not-operating
+ notifies not-operating
+!
+!
+vlan internal allocation policy ascending
+!
+!
+!
+interface FastEthernet1/1
+ switchport access vlan 40
+ switchport mode access
+!
+interface FastEthernet1/2
+ switchport access vlan 50
+ switchport mode access
+!
+interface FastEthernet1/3
+ switchport access vlan 60
+ switchport mode access
+!
+interface FastEthernet1/4
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/1
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/2
+ switchport access vlan 100
+ switchport mode access
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan100
+ ip address 10.0.100.46 255.255.255.0
+ cip enable
+!
+ip default-gateway 10.0.100.2
+no ip http server
+ip sla enable reaction-alerts
+!
+line con 0
+line vty 0 4
+ password 1234Five
+ login
+line vty 5 15
+ password 1234Five
+ login
+!
+end
