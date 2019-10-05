@@ -1,5 +1,6 @@
 !
-version 12.2
+!
+version 15.2
 no service pad
 service timestamps debug datetime msec
 service timestamps log datetime msec
@@ -12,49 +13,110 @@ boot-end-marker
 !
 enable secret 5 $1$MJXr$uPi8FjrEBet3KZ7JDw2aV1
 !
-!
-!
 no aaa new-model
 system mtu routing 1500
-ptp mode e2etransparent
+ptp mode e2etransparent 
+rep bpduleak
 !
 !
+!
+!
+!
+!
+!
+ip domain-name team254.com
 !
 !
 !
 !
 no mac authentication
 mac authentication table version 0
+!
 spanning-tree mode pvst
 spanning-tree extend system-id
 !
 alarm profile defaultPort
- alarm not-operating
- syslog not-operating
- notifies not-operating
+ alarm not-operating 
+ syslog not-operating 
+ notifies not-operating 
 !
 !
-vlan internal allocation policy ascending
+!
+!
+!
 !
 !
 !
 interface FastEthernet1/1
+ description Blue1
  switchport access vlan 40
  switchport mode access
 !
 interface FastEthernet1/2
+ description Blue2
  switchport access vlan 50
  switchport mode access
 !
 interface FastEthernet1/3
+ description Blue3
  switchport access vlan 60
  switchport mode access
 !
 interface FastEthernet1/4
+ description Armor Block
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/5
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/6
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/7
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/8
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet2/1
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet2/2
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet2/3
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet2/4
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet2/5
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet2/6
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet2/7
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet2/8
  switchport access vlan 100
  switchport mode access
 !
 interface GigabitEthernet1/1
+ description Uplink Trunk
  switchport trunk native vlan 100
  switchport mode trunk
 !
@@ -64,15 +126,29 @@ interface GigabitEthernet1/2
 !
 interface Vlan1
  no ip address
- shutdown
+!
+interface Vlan40
+ no ip address
+!
+interface Vlan50
+ no ip address
+!
+interface Vlan60
+ no ip address
 !
 interface Vlan100
  ip address 10.0.100.46 255.255.255.0
  cip enable
 !
 ip default-gateway 10.0.100.2
-no ip http server
-ip sla enable reaction-alerts
+ip http server
+ip http secure-server
+ip http tls-version TLSv1.2 
+ip http session-idle-timeout 1200 
+ip ssh version 2
+!
+snmp-server community 1234Five RO
+snmp mib flash cache
 !
 line con 0
 line vty 0 4
@@ -81,5 +157,6 @@ line vty 0 4
 line vty 5 15
  password 1234Five
  login
+!
 !
 end
