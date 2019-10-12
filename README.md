@@ -1,3 +1,3 @@
 # Cheesy-PLC
-Code for the Allen Bradely PLC for use with Cheesy Arena
-How to load code onto the plc from an sd card: https://www.youtube.com/watch?v=na5QcRh3aVg
+Code for the Allen Bradely PLC for use with [Cheesy Arena](https://github.com/Team254/cheesy-arena)<br>
+How to load code onto the PLC from an SD card: https://www.youtube.com/watch?v=na5QcRh3aVg
