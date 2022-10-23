@@ -141,7 +141,7 @@ interface Vlan30
  no ip route-cache
 !
 interface Vlan100
- ip address 10.0.100.45 255.255.255.0
+ ip address 10.0.100.48 255.255.255.0
  no ip route-cache
  cip enable
 !

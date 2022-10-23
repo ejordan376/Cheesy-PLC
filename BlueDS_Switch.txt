@@ -137,7 +137,7 @@ interface Vlan60
  no ip address
 !
 interface Vlan100
- ip address 10.0.100.46 255.255.255.0
+ ip address 10.0.100.49 255.255.255.0
  cip enable
 !
 ip default-gateway 10.0.100.2
