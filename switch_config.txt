@@ -1,14 +1,14 @@
-! Baseline configuration for the Catalyst WS-C3750E-48PD-SF switch. Load this into the switch prior to configuring
+! Baseline configuration for the Catalyst WS-C2960X-48FPS-L switch. Load this into the switch prior to configuring
 ! Cheesy Arena to connect to it. Default password is 1234Five.
 !
 !
-version 15.0
+version 15.2
 no service pad
 service timestamps debug datetime msec
 service timestamps log datetime msec
 no service password-encryption
 !
-hostname ChezySwitch
+hostname FIRSTCA-SW
 !
 boot-start-marker
 boot-end-marker
@@ -16,9 +16,14 @@ boot-end-marker
 enable secret 5 $1$kKSW$fCMwnMdYvXui1TulfyYHN/
 !
 no aaa new-model
+switch 1 provision ws-c2960x-48fps-l
+!
+!
+!
 system mtu routing 1500
 ip routing
 ip dhcp excluded-address 10.0.100.1 10.0.100.100
+i
 !
 ip dhcp pool dhcppool
  network 10.0.100.0 255.255.255.0
@@ -29,7 +34,8 @@ ip dhcp pool dhcppool
 !
 !
 !
-ip domain-name team254.com
+ip domain-name FIRSTCA.ORG
+!
 !
 !
 !
@@ -39,12 +45,13 @@ ip domain-name team254.com
 !
 !
 spanning-tree mode pvst
-spanning-tree portfast default
+spanning-tree portfast edge default
 spanning-tree extend system-id
 !
 vlan internal allocation policy ascending
 !
-ip ssh version 2
+!
+!
 !
 ! 
 !
@@ -61,23 +68,21 @@ interface FastEthernet0
 !
 interface GigabitEthernet1/0/1
  description AP
- switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
 interface GigabitEthernet1/0/2
  description Red SCC
- switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
 interface GigabitEthernet1/0/3
- description Management
- switchport mode access
+ description AP2
+ switchport trunk native vlan 100
+ switchport mode trunk
 !
 interface GigabitEthernet1/0/4
  description Blue SCC
- switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
@@ -92,9 +97,8 @@ interface GigabitEthernet1/0/6
  switchport mode access
 !
 interface GigabitEthernet1/0/7
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/8
  description Red 2 DS
@@ -102,9 +106,8 @@ interface GigabitEthernet1/0/8
  switchport mode access
 !
 interface GigabitEthernet1/0/9
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/10
  description Red 3 DS
@@ -112,9 +115,8 @@ interface GigabitEthernet1/0/10
  switchport mode access
 !
 interface GigabitEthernet1/0/11
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/12
  description Blue 1 DS
@@ -122,9 +124,8 @@ interface GigabitEthernet1/0/12
  switchport mode access
 !
 interface GigabitEthernet1/0/13
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/14
  description Blue 2 DS
@@ -132,9 +133,8 @@ interface GigabitEthernet1/0/14
  switchport mode access
 !
 interface GigabitEthernet1/0/15
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/16
  description Blue 3 DS
@@ -258,46 +258,28 @@ interface GigabitEthernet1/0/45
  switchport mode access
 !
 interface GigabitEthernet1/0/46
- switchport access vlan 100
- switchport mode access
 !
 interface GigabitEthernet1/0/47
- switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
 interface GigabitEthernet1/0/48
- switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
 interface GigabitEthernet1/0/49
- switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
 interface GigabitEthernet1/0/50
- switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
 interface GigabitEthernet1/0/51
- switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
 interface GigabitEthernet1/0/52
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
-!
-interface TenGigabitEthernet1/0/1
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
-!
-interface TenGigabitEthernet1/0/2
- switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
@@ -305,36 +287,37 @@ interface Vlan1
  ip address 10.0.0.61 255.255.255.0
 !
 interface Vlan10
- ip address 10.0.1.61 255.255.255.0
+ ip address 10.42.76.61 255.255.255.0
  ip access-group 110 in
 !
 interface Vlan20
- ip address 10.0.2.61 255.255.255.0
+ ip address 10.5.99.61 255.255.255.0
  ip access-group 120 in
 !
 interface Vlan30
- ip address 10.0.3.61 255.255.255.0
+ ip address 10.6.87.61 255.255.255.0
  ip access-group 130 in
 !
 interface Vlan40
- ip address 10.0.4.61 255.255.255.0
+ ip address 10.26.59.61 255.255.255.0
  ip access-group 140 in
 !
 interface Vlan50
- ip address 10.0.5.61 255.255.255.0
+ ip address 10.32.55.61 255.255.255.0
  ip access-group 150 in
 !
 interface Vlan60
- ip address 10.0.6.61 255.255.255.0
+ ip address 10.6.91.61 255.255.255.0
  ip access-group 160 in
 !
 interface Vlan100
  ip address 10.0.100.2 255.255.255.0
 !
+!
 ip classless
 ip http server
 ip http secure-server
-!
+ip ssh version 2
 !
 access-list 110 permit ip 10.0.1.0 0.0.0.255 host 10.0.100.5
 access-list 110 permit udp any eq bootpc any eq bootps
@@ -349,9 +332,10 @@ access-list 150 permit udp any eq bootpc any eq bootps
 access-list 160 permit ip 10.0.6.0 0.0.0.255 host 10.0.100.5
 access-list 160 permit udp any eq bootpc any eq bootps
 !
-snmp-server community 1234Five RO
 !
 vstack
+snmp-server community 1234Five RO
+snmp mib flash cache
 !
 line con 0
  exec-timeout 0 0
@@ -361,5 +345,6 @@ line vty 0 4
 line vty 5 15
  password 1234Five
  login
+!
 !
 end
