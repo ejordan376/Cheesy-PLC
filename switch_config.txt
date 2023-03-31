@@ -27,7 +27,7 @@ i
 !
 ip dhcp pool dhcppool
  network 10.0.100.0 255.255.255.0
- domain-name team254.com
+ domain-name FIRSTCA.ORG
  dns-server 8.8.8.8 8.8.4.4 
  default-router 10.0.100.1 
  lease 7
@@ -258,6 +258,8 @@ interface GigabitEthernet1/0/45
  switchport mode access
 !
 interface GigabitEthernet1/0/46
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/47
  switchport trunk native vlan 100
@@ -287,27 +289,27 @@ interface Vlan1
  ip address 10.0.0.61 255.255.255.0
 !
 interface Vlan10
- ip address 10.42.76.61 255.255.255.0
+ ip address 10.0.1.61 255.255.255.0
  ip access-group 110 in
 !
 interface Vlan20
- ip address 10.5.99.61 255.255.255.0
+ ip address 10.0.2.61 255.255.255.0
  ip access-group 120 in
 !
 interface Vlan30
- ip address 10.6.87.61 255.255.255.0
+ ip address 10.0.3.61 255.255.255.0
  ip access-group 130 in
 !
 interface Vlan40
- ip address 10.26.59.61 255.255.255.0
+ ip address 10.0.4.61 255.255.255.0
  ip access-group 140 in
 !
 interface Vlan50
- ip address 10.32.55.61 255.255.255.0
+ ip address 10.0.5.61 255.255.255.0
  ip access-group 150 in
 !
 interface Vlan60
- ip address 10.6.91.61 255.255.255.0
+ ip address 10.0.6.61 255.255.255.0
  ip access-group 160 in
 !
 interface Vlan100
