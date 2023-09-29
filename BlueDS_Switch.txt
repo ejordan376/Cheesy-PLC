@@ -51,16 +51,19 @@ interface FastEthernet1/1
  description Blue1
  switchport access vlan 40
  switchport mode access
+ spanning-tree portfast
 !
 interface FastEthernet1/2
  description Blue2
  switchport access vlan 50
  switchport mode access
+  spanning-tree portfast
 !
 interface FastEthernet1/3
  description Blue3
  switchport access vlan 60
  switchport mode access
+  spanning-tree portfast
 !
 interface FastEthernet1/4
  description Armor Block
