@@ -1,0 +1,364 @@
+! Baseline configuration for the Catalyst WS-C2960X-48FPS-L switch. Load this into the switch prior to configuring
+! Cheesy Arena to connect to it. Default password is 1234Five.
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname FIRSTCA-SW
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$kKSW$fCMwnMdYvXui1TulfyYHN/
+!
+no aaa new-model
+switch 1 provision ws-c2960x-48fps-l
+clock timezone PST -8 0
+!
+!
+!
+!
+ip routing
+ip dhcp excluded-address 10.0.100.1 10.0.100.125
+ip dhcp excluded-address 10.0.100.200 10.0.100.225
+!
+!
+ip dhcp pool dhcppool
+ network 10.0.100.0 255.255.255.0
+ domain-name FIRSTCA.ORG
+ dns-server 8.8.8.8 8.8.4.4 
+ default-router 10.0.100.1 
+ lease 7
+!
+!
+ip domain-name FIRSTCA.ORG
+ip name-server 8.8.8.8
+ip name-server 8.8.4.4
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree portfast edge default
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+ no ip route-cache
+!
+interface GigabitEthernet1/0/1
+ description AP Trunk 1
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/2
+ description Red SCC
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/3
+ description AP Trunk 2
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/4
+ description Blue SCC
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/5
+ description Event Server
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/6
+ description Red 1 DS
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/7
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/8
+ description Red 2 DS
+ switchport access vlan 20
+ switchport mode access
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/10
+ description Red 3 DS
+ switchport access vlan 30
+ switchport mode access
+!
+interface GigabitEthernet1/0/11
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/12
+ description Blue 1 DS
+ switchport access vlan 40
+ switchport mode access
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/14
+ description Blue 2 DS
+ switchport access vlan 50
+ switchport mode access
+!
+interface GigabitEthernet1/0/15
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/16
+ description Blue 3 DS
+ switchport access vlan 60
+ switchport mode access
+!
+interface GigabitEthernet1/0/17
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/18
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/19
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/20
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/23
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/24
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/25
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/26
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/27
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/28
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/29
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/30
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/31
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/32
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/33
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/34
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/35
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/36
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/37
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/38
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/39
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/40
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/41
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/42
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/43
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/44
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/45
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/46
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/0/47
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/48
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/49
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/50
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/51
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/52
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface Vlan1
+ ip address 10.0.0.61 255.255.255.0
+!
+interface Vlan10
+ description RED1
+ ip address 10.0.1.4 255.255.255.0
+ ip access-group 110 in
+!
+interface Vlan20
+ description RED2
+ ip address 10.0.2.4 255.255.255.0
+ ip access-group 120 in
+!
+interface Vlan30
+ description RED3
+ ip address 10.0.3.4 255.255.255.0
+ ip access-group 130 in
+!
+interface Vlan40
+ description BLUE1
+ ip address 10.0.4.4 255.255.255.0
+ ip access-group 140 in
+!
+interface Vlan50
+ description BLUE2
+ ip address 10.0.5.4 255.255.255.0
+ ip access-group 150 in
+!
+interface Vlan60
+ description BLUE3
+ ip address 10.0.6.4 255.255.255.0
+ ip access-group 160 in
+!
+interface Vlan100
+ description ADMIN
+ ip address 10.0.100.2 255.255.255.0
+!
+ip default-gateway 10.0.100.1
+!
+ip http server
+ip http secure-server
+ip ssh version 2
+!
+!
+access-list 110 permit ip 10.0.1.0 0.0.0.255 host 10.0.100.5
+access-list 110 permit udp any eq bootpc any eq bootps
+access-list 120 permit ip 10.0.2.0 0.0.0.255 host 10.0.100.5
+access-list 120 permit udp any eq bootpc any eq bootps
+access-list 130 permit ip 10.0.3.0 0.0.0.255 host 10.0.100.5
+access-list 130 permit udp any eq bootpc any eq bootps
+access-list 140 permit ip 10.0.4.0 0.0.0.255 host 10.0.100.5
+access-list 140 permit udp any eq bootpc any eq bootps
+access-list 150 permit ip 10.0.5.0 0.0.0.255 host 10.0.100.5
+access-list 150 permit udp any eq bootpc any eq bootps
+access-list 160 permit ip 10.0.6.0 0.0.0.255 host 10.0.100.5
+access-list 160 permit udp any eq bootpc any eq bootps
+!
+!
+snmp-server community 1234Five RO
+snmp mib flash cache
+!
+line con 0
+ exec-timeout 0 0
+line vty 0 4
+ password 1234Five
+ login
+line vty 5 15
+ password 1234Five
+ login
+!
+ntp panic update
+ntp source Vlan100
+ntp peer 132.163.96.1 prefer
+ntp server 132.163.96.1 prefer
+!
+end
