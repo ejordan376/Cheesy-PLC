@@ -14,6 +14,7 @@ boot-end-marker
 enable secret 5 $1$MJXr$uPi8FjrEBet3KZ7JDw2aV1
 !
 no aaa new-model
+clock timezone PST -8 0
 system mtu routing 1500
 ptp mode e2etransparent 
 rep bpduleak
@@ -24,7 +25,7 @@ rep bpduleak
 !
 !
 !
-ip domain-name team254.com
+ip domain-name FIRSTCA.ORG
 !
 !
 !
@@ -51,16 +52,19 @@ interface FastEthernet1/1
  description Red1
  switchport access vlan 10
  switchport mode access
+ spanning-tree portfast
 !
 interface FastEthernet1/2
  description Red2
  switchport access vlan 20
  switchport mode access
+ spanning-tree portfast
 !
 interface FastEthernet1/3
  description Red3
  switchport access vlan 30
  switchport mode access
+ spanning-tree portfast
 !
 interface FastEthernet1/4
  description Armor Block
@@ -162,6 +166,8 @@ line vty 0 4
 line vty 5 15
  password 1234Five
  login
+!
+ntp server 132.163.96.1 prefer
 !
 !
 end
