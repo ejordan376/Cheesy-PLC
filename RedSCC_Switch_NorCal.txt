@@ -1,0 +1,177 @@
+!
+! Configuration for the Allen-Bradley Stratix 5700 (1783-BMS12T4E2CGL) in the NorCal Red SCC
+!
+! Last configuration change at 19:46:49 PST Sat May 18 2024
+! NVRAM config last updated at 19:46:56 PST Sat May 18 2024
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname RED_SCC
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$P1s5$GcESei8x7B/QZwfQKoy720
+!
+username admin privilege 15 secret 5 $1$w2X9$qOIvqh/Q6q1doX/zsTpWu/
+no aaa new-model
+clock timezone PST -8 0
+clock summer-time PST recurring 2 Sun Mar 2:00 1 Sun Nov 1:00
+system mtu routing 1500
+!
+!
+ip domain-name FIRSTCA.ORG
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+power inline wattage max 120
+!
+alarm profile defaultPort
+ alarm not-operating
+ syslog not-operating
+ notifies not-operating
+!
+alarm facility power-supply rps disable
+!
+vlan internal allocation policy ascending
+!
+lldp run
+!
+!
+!
+!
+!
+interface FastEthernet1/1
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/2
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/3
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/4
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/5
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/6
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/7
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/8
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/9
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/10
+ description Red 1 DS
+ switchport access vlan 10
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface FastEthernet1/11
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/12
+ description Red 2 DS
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface FastEthernet1/13
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/14
+ description Red 3 DS
+ switchport access vlan 30
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface FastEthernet1/15
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/16
+ description Red ArmorBlock
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/1
+ description Uplink Trunk
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/2
+ switchport access vlan 100
+ switchport mode access
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan10
+ description RED1
+ no ip address
+!
+interface Vlan20
+ description RED2
+ no ip address
+!
+interface Vlan30
+ description RED3
+ no ip address
+!
+interface Vlan100
+ description ADMIN
+ ip address 10.0.100.48 255.255.255.0
+ cip enable
+!
+ip default-gateway 10.0.100.1
+ip http server
+ip http secure-server
+ip http tls-version TLSv1.2
+ip http session-idle-timeout 1200
+ip ssh version 2
+!
+snmp-server community 1234Five RO
+snmp mib flash cache
+!
+line con 0
+ exec-timeout 0 0
+line vty 0 4
+ login local
+ transport input telnet ssh
+line vty 5 15
+ login local
+ transport input telnet ssh
+!
+ntp source Vlan100
+ntp server 132.163.96.1 prefer
+!
+!
+!
+!
+!
+!
+!
+end

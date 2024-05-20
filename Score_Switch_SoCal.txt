@@ -1,23 +1,26 @@
-! Baseline configuration for the Catalyst WS-C3750E-48PD switch. Load this into the switch prior to configuring
-! Cheesy Arena to connect to it. Default password is 1234Five.
+!
+! Baseline configuration for the Catalyst WS-C3750E-48PD switch in the SoCal Case33. Load this into the switch prior to configuring
+!
+! Last configuration change at 17:10:24 PST Sat May 18 2024
 !
 version 15.2
 no service pad
 service timestamps debug datetime msec
 service timestamps log datetime msec
-no service password-encryption
+service password-encryption
 !
 hostname FIRSTCA-SW-SOCAL
 !
 boot-start-marker
 boot-end-marker
 !
-enable secret 5 $1$kKSW$fCMwnMdYvXui1TulfyYHN/
+enable secret 9 $9$uZoyF8Z6MLnKJ.$PmB60pemfIx.TqjF8A5A0RmqYBaKgLMP32mQg17Nb.w
 !
 no aaa new-model
 switch 1 provision ws-c3750e-48pd
 system mtu routing 1500
 clock timezone PST -8 0
+clock summer-time PST recurring 2 Sun Mar 2:00 1 Sun Nov 1:00
 !
 !
 !
@@ -46,11 +49,10 @@ ip name-server 8.8.4.4
 !
 !
 !
-spanning-tree mode pvst
-spanning-tree portfast edge default
+spanning-tree mode rapid-pvst
 spanning-tree extend system-id
 !
-!
+username admin privilege 15 secret 9 $9$55JJ4wH2MSKYbk$caSloAlWGq/t6squkZVWxz9lbuCsp6F93ldhk0pI9.A
 !
 !
 vlan internal allocation policy ascending
@@ -71,25 +73,25 @@ interface FastEthernet0
  no ip route-cache
 !
 interface GigabitEthernet1/0/1
- description AP Trunk 2
+ description AP Trunk 1 Primary
  switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
 interface GigabitEthernet1/0/2
- description Red SCC
+ description Red SCC Trunk
  switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
 interface GigabitEthernet1/0/3
- description AP Trunk 2
+ description AP Trunk 2 Secondary
  switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
 !
 interface GigabitEthernet1/0/4
- description Blue SCC
+ description Blue SCC Trunk
  switchport trunk encapsulation dot1q
  switchport trunk native vlan 100
  switchport mode trunk
@@ -103,6 +105,7 @@ interface GigabitEthernet1/0/6
  description Red 1 DS
  switchport access vlan 10
  switchport mode access
+ spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/7
  switchport access vlan 100
@@ -112,6 +115,7 @@ interface GigabitEthernet1/0/8
  description Red 2 DS
  switchport access vlan 20
  switchport mode access
+ spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/9
  switchport access vlan 100
@@ -121,6 +125,7 @@ interface GigabitEthernet1/0/10
  description Red 3 DS
  switchport access vlan 30
  switchport mode access
+ spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/11
  switchport access vlan 100
@@ -130,6 +135,7 @@ interface GigabitEthernet1/0/12
  description Blue 1 DS
  switchport access vlan 40
  switchport mode access
+ spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/13
  switchport access vlan 100
@@ -139,6 +145,7 @@ interface GigabitEthernet1/0/14
  description Blue 2 DS
  switchport access vlan 50
  switchport mode access
+ spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/15
  switchport access vlan 100
@@ -148,6 +155,7 @@ interface GigabitEthernet1/0/16
  description Blue 3 DS
  switchport access vlan 60
  switchport mode access
+ spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/17
  switchport access vlan 100
@@ -270,47 +278,39 @@ interface GigabitEthernet1/0/46
  switchport mode access
 !
 interface GigabitEthernet1/0/47
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/48
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/49
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/50
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/51
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface GigabitEthernet1/0/52
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface TenGigabitEthernet1/0/1
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface TenGigabitEthernet1/0/2
- switchport trunk encapsulation dot1q
- switchport trunk native vlan 100
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
 !
 interface Vlan1
- ip address 10.0.0.61 255.255.255.0
+ ip address 10.0.0.3 255.255.255.0
 !
 interface Vlan10
  description RED1
@@ -344,13 +344,13 @@ interface Vlan60
 !
 interface Vlan100
  description ADMIN
- ip address 10.0.100.2 255.255.255.0
+ ip address 10.0.100.3 255.255.255.0
 !
 ip default-gateway 10.0.100.1
-ip forward-protocol nd
 !
 ip http server
 ip http secure-server
+ip http authentication local
 ip ssh version 2
 !
 !
@@ -368,19 +368,18 @@ access-list 160 permit ip 10.0.6.0 0.0.0.255 host 10.0.100.5
 access-list 160 permit udp any eq bootpc any eq bootps
 !
 snmp-server community 1234Five RO
+snmp mib flash cache
 !
 line con 0
  exec-timeout 0 0
 line vty 0 4
- password 1234Five
- login
+ login local
+ transport input telnet ssh
 line vty 5 15
- password 1234Five
- login
+ login local
+ transport input telnet ssh
 !
-ntp panic update
 ntp source Vlan100
-ntp peer 132.163.96.1 prefer
 ntp server 132.163.96.1 prefer
 !
 end
