@@ -1,20 +1,26 @@
 !
+! Configuration for the Allen-Bradley Stratix 8000 (1783-MS10T with 1783-MX04T04E Expanslon Module) in the SoCal Blue SCC
+!
+! Last configuration change at 18:32:28 PST Sat May 18 2024
+! NVRAM config last updated at 18:32:42 PST Sat May 18 2024
 !
 version 15.2
 no service pad
 service timestamps debug datetime msec
 service timestamps log datetime msec
-no service password-encryption
+service password-encryption
 !
-hostname RED_DS
+hostname Blue_SCC
 !
 boot-start-marker
 boot-end-marker
 !
-enable secret 5 $1$MJXr$uPi8FjrEBet3KZ7JDw2aV1
+enable secret 5 $1$soxk$poRcxf7TdTy4wdR41IQZq1
 !
+username admin privilege 15 secret 5 $1$Ok4L$hPKC.VthI3SxzIKzcux8P.
 no aaa new-model
 clock timezone PST -8 0
+clock summer-time PST recurring 2 Sun Mar 2:00 1 Sun Nov 1:00
 system mtu routing 1500
 ptp mode e2etransparent 
 rep bpduleak
@@ -33,7 +39,7 @@ ip domain-name FIRSTCA.ORG
 no mac authentication
 mac authentication table version 0
 !
-spanning-tree mode pvst
+spanning-tree mode rapid-pvst
 spanning-tree extend system-id
 !
 alarm profile defaultPort
@@ -49,25 +55,25 @@ alarm profile defaultPort
 !
 !
 interface FastEthernet1/1
- description Red1
- switchport access vlan 10
+ description Blue 1 DS
+ switchport access vlan 40
  switchport mode access
  spanning-tree portfast
 !
 interface FastEthernet1/2
- description Red2
- switchport access vlan 20
+ description Blue 2 DS
+ switchport access vlan 50
  switchport mode access
- spanning-tree portfast
+  spanning-tree portfast
 !
 interface FastEthernet1/3
- description Red3
- switchport access vlan 30
+ description Blue 3 DS
+ switchport access vlan 60
  switchport mode access
- spanning-tree portfast
+  spanning-tree portfast
 !
 interface FastEthernet1/4
- description Armor Block
+ description Blue ArmorBlock
  switchport access vlan 100
  switchport mode access
 !
@@ -130,23 +136,22 @@ interface GigabitEthernet1/2
 !
 interface Vlan1
  no ip address
- no ip route-cache
 !
-interface Vlan10
+interface Vlan40
+ description BLUE1
  no ip address
- no ip route-cache
 !
-interface Vlan20
+interface Vlan50
+ description BLUE2
  no ip address
- no ip route-cache
 !
-interface Vlan30
+interface Vlan60
+ description BLUE3
  no ip address
- no ip route-cache
 !
 interface Vlan100
- ip address 10.0.100.48 255.255.255.0
- no ip route-cache
+ description ADMIN
+ ip address 10.0.100.49 255.255.255.0
  cip enable
 !
 ip default-gateway 10.0.100.2
@@ -160,6 +165,7 @@ snmp-server community 1234Five RO
 snmp mib flash cache
 !
 line con 0
+ exec-timeout 0 0
 line vty 0 4
  password 1234Five
  login
@@ -167,6 +173,7 @@ line vty 5 15
  password 1234Five
  login
 !
+ntp source Vlan100
 ntp server 132.163.96.1 prefer
 !
 !
