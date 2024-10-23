@@ -1,5 +1,5 @@
 !
-! Baseline configuration for the Catalyst WS-C2960X-48U-S switch in the NorCal Case33. Load this into the switch prior to configuring
+! Baseline configuration for the Catalyst WS-C3850-48U-S switch in the NorCal Case33. Load this into the switch prior to configuring
 !
 ! Last configuration change at 17:10:24 PST Sat May 18 2024
 !
