@@ -1,8 +1,8 @@
 !
-! Configuration for the Allen-Bradley Stratix 8000 (1783-MS10T with 1783-MX04T04E Expanslon Module) in the SoCal Blue SCC
+! Configuration for the Allen-Bradley Stratix 5400 (1783-HMS8TG8EG4CGN) in the SoCal Blue SCC
 !
-! Last configuration change at 18:32:28 PST Sat May 18 2024
-! NVRAM config last updated at 18:32:42 PST Sat May 18 2024
+! Last configuration change at 08:48:21 PST Sat Nov 2 2024 by admin
+! NVRAM config last updated at 08:48:40 PST Sat Nov 2 2024 by admin
 !
 version 15.2
 no service pad
@@ -10,10 +10,11 @@ service timestamps debug datetime msec
 service timestamps log datetime msec
 service password-encryption
 !
-hostname Blue_SCC
+hostname BLUE_SCC
 !
 boot-start-marker
 boot-end-marker
+!
 !
 enable secret 5 $1$soxk$poRcxf7TdTy4wdR41IQZq1
 !
@@ -21,13 +22,8 @@ username admin privilege 15 secret 5 $1$Ok4L$hPKC.VthI3SxzIKzcux8P.
 no aaa new-model
 clock timezone PST -8 0
 clock summer-time PST recurring 2 Sun Mar 2:00 1 Sun Nov 1:00
+platform config-upgrade 15.2(6)E
 system mtu routing 1500
-ptp mode e2etransparent 
-rep bpduleak
-!
-!
-!
-!
 !
 !
 !
@@ -36,94 +32,29 @@ ip domain-name FIRSTCA.ORG
 !
 !
 !
-no mac authentication
-mac authentication table version 0
+!
+ptp mode e2etransparent 
+!
 !
 spanning-tree mode rapid-pvst
 spanning-tree extend system-id
+power inline wattage max 120
 !
 alarm profile defaultPort
  alarm not-operating 
  syslog not-operating 
  notifies not-operating 
 !
+alarm facility power-supply rps disable
+!
+!
+vlan internal allocation policy ascending
+!
+lldp run
 !
 !
 !
 !
-!
-!
-!
-interface FastEthernet1/1
- description Blue 1 DS
- switchport access vlan 40
- switchport mode access
- spanning-tree portfast
-!
-interface FastEthernet1/2
- description Blue 2 DS
- switchport access vlan 50
- switchport mode access
-  spanning-tree portfast
-!
-interface FastEthernet1/3
- description Blue 3 DS
- switchport access vlan 60
- switchport mode access
-  spanning-tree portfast
-!
-interface FastEthernet1/4
- description Blue ArmorBlock
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet1/5
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet1/6
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet1/7
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet1/8
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet2/1
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet2/2
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet2/3
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet2/4
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet2/5
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet2/6
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet2/7
- switchport access vlan 100
- switchport mode access
-!
-interface FastEthernet2/8
- switchport access vlan 100
- switchport mode access
 !
 interface GigabitEthernet1/1
  description Uplink Trunk
@@ -131,6 +62,85 @@ interface GigabitEthernet1/1
  switchport mode trunk
 !
 interface GigabitEthernet1/2
+ description Blue 1 DS
+ switchport access vlan 40
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/3
+ description Blue 2 DS
+ switchport access vlan 50
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/4
+ description Blue 3 DS
+ switchport access vlan 60
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/5
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/6
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/7
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/8
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/9
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/10
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/11
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/12
+ description Blue ArmorBlock
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/13
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/14
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/15
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/16
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/17
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/18
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/19
+ switchport access vlan 100
+ switchport mode access
+!
+interface GigabitEthernet1/20
  switchport access vlan 100
  switchport mode access
 !
@@ -154,12 +164,17 @@ interface Vlan100
  ip address 10.0.100.49 255.255.255.0
  cip enable
 !
-ip default-gateway 10.0.100.2
+ip default-gateway 10.0.100.1
+ip forward-protocol nd
+!
 ip http server
 ip http secure-server
 ip http tls-version TLSv1.2 
 ip http session-idle-timeout 1200 
 ip ssh version 2
+!
+!
+!
 !
 snmp-server community 1234Five RO
 snmp mib flash cache
@@ -167,14 +182,20 @@ snmp mib flash cache
 line con 0
  exec-timeout 0 0
 line vty 0 4
- password 1234Five
- login
+ login local
+ transport input telnet ssh
 line vty 5 15
- password 1234Five
- login
+ login local
+ transport input telnet ssh
 !
 ntp source Vlan100
 ntp server 132.163.96.1 prefer
+!
+!
+!
+!
+!
+!
 !
 !
 end
