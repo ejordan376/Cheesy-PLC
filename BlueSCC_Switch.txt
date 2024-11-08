@@ -1,8 +1,8 @@
 !
-! Configuration for the Allen-Bradley Stratix 5400 (1783-HMS8TG8EG4CGN) in the SoCal Red SCC
+! Configuration for the Allen-Bradley Stratix 5400 (1783-HMS8TG8EG4CGN) in the FIRST California Blue SCC
 !
-! Last configuration change at 11:29:40 PST Sat Nov 2 2024 by admin
-! NVRAM config last updated at 11:29:58 PST Sat Nov 2 2024 by admin
+! Last configuration change at 08:48:21 PST Sat Nov 2 2024 by admin
+! NVRAM config last updated at 08:48:40 PST Sat Nov 2 2024 by admin
 !
 version 15.2
 no service pad
@@ -10,7 +10,7 @@ service timestamps debug datetime msec
 service timestamps log datetime msec
 service password-encryption
 !
-hostname RED_SCC
+hostname BLUE_SCC
 !
 boot-start-marker
 boot-end-marker
@@ -34,6 +34,7 @@ ip domain-name FIRSTCA.ORG
 !
 !
 ptp mode e2etransparent 
+!
 !
 spanning-tree mode rapid-pvst
 spanning-tree extend system-id
@@ -61,20 +62,20 @@ interface GigabitEthernet1/1
  switchport mode trunk
 !
 interface GigabitEthernet1/2
- description Red 1 DS
- switchport access vlan 10
+ description Blue 1 DS
+ switchport access vlan 40
  switchport mode access
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/3
- description Red 2 DS
- switchport access vlan 20
+ description Blue 2 DS
+ switchport access vlan 50
  switchport mode access
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/4
- description Red 3 DS
- switchport access vlan 30
+ description Blue 3 DS
+ switchport access vlan 60
  switchport mode access
  spanning-tree portfast edge
 !
@@ -103,7 +104,7 @@ interface GigabitEthernet1/10
  switchport mode access
 !
 interface GigabitEthernet1/11
- description Red ArmorBlock
+ description Blue ArmorBlock
  switchport access vlan 100
  switchport mode access
 !
@@ -146,21 +147,21 @@ interface GigabitEthernet1/20
 interface Vlan1
  no ip address
 !
-interface Vlan10
- description RED1
+interface Vlan40
+ description BLUE1
  no ip address
 !
-interface Vlan20
- description RED2
+interface Vlan50
+ description BLUE2
  no ip address
 !
-interface Vlan30
- description RED3
+interface Vlan60
+ description BLUE3
  no ip address
 !
 interface Vlan100
  description ADMIN
- ip address 10.0.100.48 255.255.255.0
+ ip address 10.0.100.49 255.255.255.0
  cip enable
 !
 ip default-gateway 10.0.100.1
