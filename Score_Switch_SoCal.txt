@@ -350,6 +350,8 @@ ip default-gateway 10.0.100.1
 !
 ip http server
 ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.0.100.1
+ip route 10.0.0.0 255.0.0.0 Null0
 ip http authentication local
 ip ssh version 2
 !
@@ -373,11 +375,11 @@ snmp mib flash cache
 line con 0
  exec-timeout 0 0
 line vty 0 4
- login local
- transport input telnet ssh
+ password 1234Five
+ login
 line vty 5 15
- login local
- transport input telnet ssh
+ password 1234Five
+ login
 !
 ntp source Vlan100
 ntp server 132.163.96.1 prefer
