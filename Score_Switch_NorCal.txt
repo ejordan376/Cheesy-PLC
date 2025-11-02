@@ -1,7 +1,6 @@
-!
 ! Baseline configuration for the Catalyst WS-C3850-48U-S switch in the NorCal Case33. Load this into the switch prior to configuring
 !
-! Last configuration change at 17:10:24 PST Sat May 18 2024
+! Last configuration change at 16:08:21 PST Sat May 17 2025
 !
 version 16.12
 no service pad
@@ -23,7 +22,7 @@ vrf definition Mgmt-vrf
  address-family ipv6
  exit-address-family
 !
-enable secret 9 $9$uZoyF8Z6MLnKJ.$PmB60pemfIx.TqjF8A5A0RmqYBaKgLMP32mQg17Nb.w
+enable secret 9 $14$kKSW$8lWyFuLZwPlVn.$x0KU31dNj5x2a3joCaVjxrvUVBmQ3HxVVv6CSgNuE0I
 !
 no aaa new-model
 boot system switch all flash:packages.conf
@@ -54,13 +53,17 @@ ip dhcp pool dhcppool
 !
 !
 !
+!
 login on-success log
 !
 !
 !
 !
 !
+!
+!
 no device-tracking logging theft
+!
 !
 !
 license boot level ipservicesk9
@@ -72,19 +75,15 @@ spanning-tree mode rapid-pvst
 spanning-tree extend system-id
 memory free low-watermark processor 79468
 !
-username admin privilege 15 secret 9 $9$55JJ4wH2MSKYbk$caSloAlWGq/t6squkZVWxz9lbuCsp6F93ldhk0pI9.A
+username admin privilege 15 secret 9 $14$kKSW$8lWyFuLZwPlVn.$x0KU31dNj5x2a3joCaVjxrvUVBmQ3HxVVv6CSgNuE0I
+!
+!
+! 
 !
 !
 !
 !
-!
-!
-!utt
-!
-!
-!
-!
-!
+lldp run
 !
 !
 !
@@ -106,7 +105,7 @@ interface GigabitEthernet1/0/2
  switchport mode trunk
 !
 interface GigabitEthernet1/0/3
- description AP Trunk 2 Secondary
+ description AP Trunk 2 Spare
  switchport trunk native vlan 100
  switchport mode trunk
 !
@@ -116,43 +115,48 @@ interface GigabitEthernet1/0/4
  switchport mode trunk
 !
 interface GigabitEthernet1/0/5
- description Event Server
- switchport access vlan 100
- switchport mode access
+ description Spare Trunk
+ switchport trunk native vlan 100
+ switchport mode trunk
 !
 interface GigabitEthernet1/0/6
+ description Spare Trunk
+ switchport trunk native vlan 100
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/7
  description Red 1 DS
  switchport access vlan 10
  switchport mode access
  spanning-tree portfast
 !
-interface GigabitEthernet1/0/7
- switchport access vlan 100
- switchport mode access
-!
 interface GigabitEthernet1/0/8
+ description Blue 1 DS
+ switchport access vlan 40
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/9
  description Red 2 DS
  switchport access vlan 20
  switchport mode access
  spanning-tree portfast
 !
-interface GigabitEthernet1/0/9
- switchport access vlan 100
- switchport mode access
-!
 interface GigabitEthernet1/0/10
+ description Blue 2 DS
+ switchport access vlan 50
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/11
  description Red 3 DS
  switchport access vlan 30
  switchport mode access
  spanning-tree portfast
 !
-interface GigabitEthernet1/0/11
- switchport access vlan 100
- switchport mode access
-!
 interface GigabitEthernet1/0/12
- description Blue 1 DS
- switchport access vlan 40
+ description Blue 3 DS
+ switchport access vlan 60
  switchport mode access
  spanning-tree portfast
 !
@@ -161,20 +165,17 @@ interface GigabitEthernet1/0/13
  switchport mode access
 !
 interface GigabitEthernet1/0/14
- description Blue 2 DS
- switchport access vlan 50
+ description Event Server
+ switchport access vlan 100
  switchport mode access
- spanning-tree portfast
 !
 interface GigabitEthernet1/0/15
  switchport access vlan 100
  switchport mode access
 !
 interface GigabitEthernet1/0/16
- description Blue 3 DS
- switchport access vlan 60
+ switchport access vlan 100
  switchport mode access
- spanning-tree portfast
 !
 interface GigabitEthernet1/0/17
  switchport access vlan 100
@@ -342,79 +343,78 @@ interface Vlan1
 interface Vlan10
  description RED1
  ip address 10.0.1.4 255.255.255.0
- ip access-group 110 in
+ ip access-group DS-FMS in
 !
 interface Vlan20
  description RED2
  ip address 10.0.2.4 255.255.255.0
- ip access-group 120 in
+ ip access-group DS-FMS in
 !
 interface Vlan30
  description RED3
  ip address 10.0.3.4 255.255.255.0
- ip access-group 130 in
+ ip access-group DS-FMS in
 !
 interface Vlan40
  description BLUE1
  ip address 10.0.4.4 255.255.255.0
- ip access-group 140 in
+ ip access-group DS-FMS in
 !
 interface Vlan50
  description BLUE2
  ip address 10.0.5.4 255.255.255.0
- ip access-group 150 in
+ ip access-group DS-FMS in
 !
 interface Vlan60
  description BLUE3
  ip address 10.0.6.4 255.255.255.0
- ip access-group 160 in
+ ip access-group DS-FMS in
 !
 interface Vlan100
  description ADMIN
  ip address 10.0.100.3 255.255.255.0
 !
 ip default-gateway 10.0.100.1
+ip forward-protocol nd
 ip http server
 ip http authentication local
 ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.0.100.1
+ip route 10.0.0.0 255.0.0.0 Null0
 ip ssh version 2
 ip ssh server algorithm encryption aes256-ctr aes192-ctr aes128-ctr aes256-cbc aes192-cbc aes128-cbc
 !
 !
-ip access-list extended 110
- 10 permit ip 10.0.1.0 0.0.0.255 host 10.0.100.5
- 20 permit udp any eq bootpc any eq bootps
-ip access-list extended 120
- 10 permit ip 10.0.2.0 0.0.0.255 host 10.0.100.5
- 20 permit udp any eq bootpc any eq bootps
-ip access-list extended 130
- 10 permit ip 10.0.3.0 0.0.0.255 host 10.0.100.5
- 20 permit udp any eq bootpc any eq bootps
-ip access-list extended 140
- 10 permit ip 10.0.4.0 0.0.0.255 host 10.0.100.5
- 20 permit udp any eq bootpc any eq bootps
-ip access-list extended 150
- 10 permit ip 10.0.5.0 0.0.0.255 host 10.0.100.5
- 20 permit udp any eq bootpc any eq bootps
-ip access-list extended 160
- 10 permit ip 10.0.6.0 0.0.0.255 host 10.0.100.5
- 20 permit udp any eq bootpc any eq bootps
+!
+ip access-list extended DS-FMS
+ permit udp any eq 1145 10.0.100.0 0.0.0.255 eq 1160
+ permit tcp any 10.0.100.0 0.0.0.255 eq 1750
+ permit icmp any 10.0.100.0 0.0.0.255
+ permit icmp any 10.0.0.4 0.255.255.0
+ permit udp any any eq bootpc
+ permit udp any any eq bootps
 !
 !
 snmp-server community 1234Five RO
 snmp mib flash cache
 !
+control-plane
+ service-policy input system-cpp-policy
 !
 !
 line con 0
  exec-timeout 0 0
+ stopbits 1
 line aux 0
  exec-timeout 0 0
+ stopbits 1
 line vty 0 4
- login local
+ password 7 014254570F2D0F1924
+ login
  transport input telnet ssh
 line vty 5 15
- login local
+ password 7 014254570F2D0F1924
+ login
  transport input telnet ssh
 !
 ntp source Vlan100
